@@ -4,7 +4,7 @@ import feature_extraction as feat
 import numpy as np
 import cv2
 
-data = np.load("features/gender_features.npz")
+data = np.load("features/gender_features_v2.npz")
 X = data["X"]
 y = data["y"]
 

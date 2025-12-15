@@ -18,9 +18,6 @@ def extract_mblbp_features(image, patch_size=16):
   region_size = h - 2 * patch_size
   step = patch_size // 2
 
-  # int_img = integral_image(image)
-  # codes = multiblock_lbp(int_img, 0, 0, 3, 3)
-
   codes = []
   for y in range(0, region_size, step):
     for x in range(0, region_size, step):
