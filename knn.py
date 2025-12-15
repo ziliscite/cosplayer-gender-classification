@@ -16,17 +16,12 @@ class KNN:
     # maka jarak dihitung dengan merata-rata selisih pangkat 2 antar tiap tiap plot point antara a dan b
     return np.sqrt(np.sum((x1 - x2)**2))
 
-  # coba manhattan
-  def manhattan(self, x1, x2):
-    # Manhattan distance = menjumlahkan selisih absolut tiap plot point, yaitu |x1-x2| + |y1-y2|
-    return np.sum(np.abs(x1 - x2))
-
-  def get_neighbours(self, pred, distance):
+  def get_neighbours(self, pred):
     distances = []
 
     # Hitung tiap jarak antar data yang ingin diprediksi ke setiap data yang ada
     for (data, label) in zip(self.X_train, self.y_train):
-      dist = distance(data, pred)
+      dist = self.distance(data, pred)
       distances.append((dist, label))
 
     # Sorting jarak (elemen pertama tuple)
@@ -39,13 +34,9 @@ class KNN:
 
     return neighbours
 
-  def predict(self, pred, alg="euclidian"):
-    dist = self.distance
-    if alg == "manhattan":
-      dist = self.manhattan
-
+  def predict(self, pred):
     # Ambil k tetangga
-    nearest_neighbours = self.get_neighbours(pred, dist)
+    nearest_neighbours = self.get_neighbours(pred)
 
     # Hitung kelas:count
     counts = {}
@@ -56,7 +47,7 @@ class KNN:
     majority = max(counts, key=counts.get)
     return majority
 
-  def loocv(self, alg="euclidian"):
+  def loocv(self):
     preds = []
     correct = 0
 
@@ -79,7 +70,7 @@ class KNN:
       self.y_train = y_temp
 
       # Predict data uji
-      pred = self.predict(sample_to_predict, alg)
+      pred = self.predict(sample_to_predict)
       preds.append(pred)
 
       # Cek apakah prediksinya benar
