@@ -6,8 +6,8 @@ import cv2
 def extract_hog_features(image):
   return hog(
     image,
-    orientations=9,
-    pixels_per_cell=(8, 8),
+    orientations=8,
+    pixels_per_cell=(16, 16),
     cells_per_block=(2, 2),
     visualize=False,
     channel_axis=None
