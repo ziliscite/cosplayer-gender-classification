@@ -46,9 +46,10 @@ def draw_bbox(image, x, y, w, h, score):
 
 def classify_image(image):
   # preprocessings
-  resized_img, scale = prep.resize_image(image, max_size=512)
+  resized_img, scale = prep.resize_image(image)
   best_face = prep.detect_face(resized_img, face_detector)
   if best_face is None:
+    print("No face detected, skipping")
     return None
 
   # get bounding box in resized image coordinates

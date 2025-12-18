@@ -106,34 +106,40 @@ def create_interface():
     
     # wrapper function to format the label result
     def classify_and_format(image):
-      step1, step2, step3, step4, step5, result = classify_image(image)
-      
-      if result:
-        result_text = result.strip().upper()
+      try:
+        step1, step2, step3, step4, step5, result = classify_image(image)
+        if result:
+          result_text = result.strip().upper()
         
-        if "FEMALE" in result_text:
-          icon = "👩"
-          gradient = "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
-          label = "FEMALE"
+          if "FEMALE" in result_text:
+            icon = "👩"
+            gradient = "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
+            label = "FEMALE"
+          else:
+            icon = "👨"
+            gradient = "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+            label = "MALE"
+          
+          formatted_result = f"""
+            <div style="background: {gradient}; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+              <div style="font-size: 5em; margin-bottom: 10px;">{icon}</div>
+              <h1 style="color: white; margin: 0; font-size: 3em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">{label}</h1>
+            </div>
+            """
         else:
-          icon = "👨"
-          gradient = "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-          label = "MALE"
-        
-        formatted_result = f"""
-        <div style="background: {gradient}; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
-          <div style="font-size: 5em; margin-bottom: 10px;">{icon}</div>
-          <h1 style="color: white; margin: 0; font-size: 3em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">{label}</h1>
-        </div>
-        """
-      else:
-        formatted_result = """
-        <div class="result-box">
-          <h2 style="color: white; margin: 0;">No result available</h2>
-        </div>
-        """
+            formatted_result = """
+            <div class="result-box">
+              <h2 style="color: white; margin: 0;">No result available</h2>
+            </div>
+            """  
+        return step1, step2, step3, step4, step5, formatted_result
       
-      return step1, step2, step3, step4, step5, formatted_result
+      except Exception as e:
+        return None, None, None, None, None, """
+          <div class="result-box
+            <h2 style="color: white; margin: 0;">No face detected in the image.</h2>
+          </div>
+          """
     
     # Set up the event handler
     classify_btn.click(
